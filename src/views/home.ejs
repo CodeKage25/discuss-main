@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forum</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:ital@1&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <%- include('./partials/nav') %>
+
+        <div class="container">
+            <div class="subforum-title">
+                <h1>Discussions</h1>
+            </div>
+            <% data.discussions.forEach(disc=> { %>
+                <div class="subforum-row">
+                    <div class="subforum-icon subforum-column center">
+                        <i class="fa fa-car center"></i>
+                    </div>
+                    <div class="subforum-description subforum-column">
+                        <h4><a href="/discussion/<%= disc._id %>">
+                                <%= disc.heading %>
+                            </a></h4>
+                        <p>
+                            <%= disc.description %>
+                        </p>
+                    </div>
+                    <div class="subforum-stats subforum-column center">
+                        <span>
+                            <%= disc.replies.length %> Replys
+                        </span>
+                    </div>
+                    <div class="subforum-info subforum-column">
+                        <b><a href="">Posted by</a></b> <a href="">
+                            <%= disc.author.username %>
+                        </a>
+                        <br>on <small>
+                            <%= moment(disc.timestamp).format("MMM Do YYYY") %>
+                        </small>
+                    </div>
+                </div>
+                <% }) %>
+
+                    <!--More-->
+
+
+
+        </div>
+        <!---->
+
+        <!-- Forum Info -->
+        <div class="forum-info">
+            <nav class="chart">
+                <ul class="pagination justify-content-center"">
+                    <li class=" page-item">
+                    <a class="page-link" href="?page=1" aria-label="Previous">
+                        <span aria-hidden="true">&laquo;</span>
+                    </a>
+                    </li>
+                    <% for (let i=1; i <=data.totalPage; i++) { %>
+                        <li class="page-item <%= i === data.page ? 'active' : '' %>">
+                            <a class="page-link" href="?page=<%= i %>">
+                                <%= i %>
+                            </a>
+                        </li>
+                        <% } %>
+                            <li class="page-item">
+                                <a class="page-link" href="?page=<%= data.totalPage %>" aria-label="Next">
+                                    <span aria-hidden="true">&raquo;</span>
+                                </a>
+                            </li>
+                </ul>
+            </nav>
+        </div>
+
+        <footer>
+            <span>&copy; Discuss | 2024</span>
+        </footer>
+        <script src="/js/main.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,39 @@
+<header>
+    <!--NavBar Section-->
+    <div class="navbar">
+        <nav class="navigation hide" id="navigation">
+            <span class="close-icon" id="close-icon" onclick="showIconBar()"><i class="fa fa-close"></i></span>
+            <ul class="nav-list">
+                <% if (user) { %>
+                    <li class="nav-item"><a href="/logout">Logout</a></li>
+                    <li class="nav-item"><a href="/create-discussion">Add Discussion</a></li>
+                    <li class="nav-item"><a href="/home">Home</a></li>
+
+                    <% } else { %>
+                        <li><a class="nav-item" href="/login">Sign In</a></li>
+                        <li class="nav-item"><a href="/home">Home</a></li>
+                        <% } %>
+
+            </ul>
+        </nav>
+        <a class="bar-icon" id="iconBar" onclick="hideIconBar()"><i class="fa fa-bars"></i></a>
+        <div class="brand">Forum</div>
+    </div>
+    <% if (user && user.role==='moderator' ) { %>
+        <div style="margin: auto; text-align: center; font-size: large; color: red;">Moderator Mode</div>
+        <% } %>
+            <!--SearchBox Section-->
+            <div class="search-box">
+                <div>
+                    <form action="" method="get">
+                        <select name="orderBy" id="">
+                        <option  value="-timestamp">Date Posted</option>
+                        <option value="heading">Heading</option>
+                    </select>
+                    <input type="text" name="q" placeholder="search ...">
+                    <button><i class="fa fa-search"></i></button>
+                    </form>
+                    
+                </div>
+            </div>
+</header>

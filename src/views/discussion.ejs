@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forum</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Titillium+Web:ital@1&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <%- include('./partials/nav') %>
+
+        <div class="container">
+            <!--Navigation-->
+            <div class="navigate">
+                <span><a href="">Forum</a> >> <a href="/home">Discussions</a> >> <a href="">
+                        <%= discussion.slug %>
+                    </a></span>
+            </div>
+
+            <!--Topic Section-->
+            <div class="topic-container">
+                <!--Original thread-->
+                <div class="head">
+                    <div class="authors">Author</div>
+                    <div class="content">Heading: <%= discussion.heading %>
+                    </div>
+                </div>
+
+                <div class="body">
+                    <div class="authors">
+                        <div class="username"><a href="">
+                                <%= discussion.author.username %>
+                            </a></div>
+                        <div>Role</div>
+                        <img src="https://cdn.pixabay.com/photo/2015/11/06/13/27/ninja-1027877_960_720.jpg" alt="">
+                        <div>Posted on: <u>
+                                <%= moment(discussion.timestamp).format("MMM Do YYYY") %>
+                            </u></div>
+                    </div>
+                    <div class="content">
+                        <%= discussion.description %>
+                            <div class="comment">
+                                <button onclick="showReply()">Reply</button>
+                            </div>
+                            <% if (user && user.role==='moderator' ) { %>
+                                <form class="comment" style="padding-right: 5%;"
+                                    action="/discussion/<%= discussion._id %>/delete" method="post">
+                                    <button type="submit" id="deleteButton"
+                                        style="background-color: red; color: white;">Delete</button>
+                                </form>
+                                <% } %>
+
+                    </div>
+                </div>
+            </div>
+            <!--Reply Area-->
+            <div class="comment-area hide" id="comment-area">
+                <form id="replyForm" action="" method="post">
+                    <textarea required name="replyText" id="reply" placeholder="reply here ... "></textarea>
+                    <input type="submit" value="submit">
+                    <button onclick="hideReplyBox()" type="button" class="hide-button">hide</button>
+                </form>
+
+            </div>
+            <br>
+            <h3>Replies</h3>
+
+
+            <!--Replies Section-->
+            <div class="comments-container">
+                <% discussion.replies.forEach(reply=> { %>
+                    <div class="body">
+                        <div class="authors">
+                            <div class="username"><a href="">
+                                    <%=reply.author.username %>
+                                </a></div>
+                            <div>Role</div>
+                            <img src="https://cdn.pixabay.com/photo/2015/11/06/13/27/ninja-1027877_960_720.jpg" alt="">
+                            <div>replied : <u>
+                                    <%= moment(reply.timestamp).fromNow() %>
+                                </u></div>
+                        </div>
+                        <div class="content">
+                            <%= reply.text %>
+                                <% if (user && user.role==='moderator' ) { %>
+                                    <form class="comment" style="padding-right: 5%;"
+                                        action="/reply/<%= reply._id %>/delete" method="post">
+                                        <button type="submit" id="deleteButton"
+                                            style="background-color: red; color: white;">Delete</button>
+                                    </form>
+
+                                    <% } %>
+
+                        </div>
+                    </div>
+                    <% }) %>
+
+            </div>
+
+
+
+        </div>
+        <footer>
+            <span>&copy; Discuss | 2024</span>
+        </footer>
+        <script src="/js/main.js"></script>
+        <script>
+            document.getElementById('replyForm').action = `${document.URL}/reply`;
+        </script>
+</body>
+
+</html>
